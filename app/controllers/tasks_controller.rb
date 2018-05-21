@@ -33,12 +33,15 @@ class TasksController < ApplicationController
       redirect_to @task
     else
       flash.now[:danger] = 'Taskが投稿されませんでした'
-      render :new
+      render :edit
     end
   end
   
   def destroy
     @task.destroy
+    
+    flash[:succcess] = 'Taskは正常に削除されました'
+    redirect_to tasks_url
   end
 
 private
@@ -47,7 +50,7 @@ def set_task
 end
 
 def task_params
-  params.require(:task).permit(:status)
+  params.require(:task).permit(:content, :status)
 end
 
 end
