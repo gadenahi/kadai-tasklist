@@ -4,7 +4,8 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:destroy, :edit]
   
   def index
-    @tasks = Task.all.page(params[:page])
+#    @tasks = Task.all.page(params[:page])
+    @tasks = current_user.task.all.page(params[:page])
   end
   
   def show
@@ -21,6 +22,7 @@ class TasksController < ApplicationController
       flash[:success] = 'Taskが正常に投稿されました'
       redirect_to root_url
     else
+      @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
       flash.now[:danger] = 'Taskが投稿されませんでした'
       render 'toppages/index'
     end
