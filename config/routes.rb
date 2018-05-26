@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'signup', to: 'users#new'
   
+  get 'users', to: 'toppages#index'  # added routes
+  
   resources :tasks
   resources :users, only: [:index, :show, :new, :create]
 end

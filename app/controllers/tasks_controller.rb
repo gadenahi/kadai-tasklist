@@ -1,17 +1,15 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   before_action :require_user_logged_in
-  before_action :correct_user, only: [:destroy, :edit]
+  before_action :correct_user, only: [:show, :destroy, :edit, :update]
+
   
   def index
-#    @tasks = Task.all.page(params[:page])
-    @tasks = current_user.task.all.page(params[:page])
+      @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
   end
   
   def show
-    @user = User.find(params[:id])
-    @tasks = @user.microposts.order('created_at DESC').page(params[:page])
-    counts(@user)
+      @task = Task.find(params[:id])
   end
   
   def new

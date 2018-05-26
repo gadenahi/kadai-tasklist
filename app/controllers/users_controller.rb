@@ -1,8 +1,11 @@
 class UsersController < ApplicationController
   before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_current_user, only: [:show]
 
   def index
-    @users = User.all.page(params[:page])
+#    @users = User.all.page(params[:page])
+#    @user = User.find(params[:id])
+
   end
 
   def show
@@ -32,4 +35,12 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
+
+  def require_current_user
+    @user = User.find(params[:id])
+    unless @user == current_user
+     redirect_to login_url
+    end
+  end
+  
 end
